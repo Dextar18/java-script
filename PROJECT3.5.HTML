@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Discount Eligibility</title>
+</head>
+<body>
+  <h1>Discount Eligibility</h1>
+  <label>Student: <input type="checkbox" id="isStudent"></label>
+  <label>Senior: <input type="checkbox" id="isSenior"></label>
+  <button onclick="checkDiscount()">Check Discount</button>
+  <div id="result"></div>
+
+  <script>
+    function checkDiscount() {
+      let isStudent = document.getElementById("isStudent").checked;
+      let isSenior = document.getElementById("isSenior").checked;
+
+      if (isStudent || isSenior) {
+        document.getElementById("result").innerHTML = "You are eligible for a discount.";
+      } else {
+        document.getElementById("result").innerHTML = "You are not eligible for a discount.";
+      }
+    }
+  </script>
+</body>
+</html>

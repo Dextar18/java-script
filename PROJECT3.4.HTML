@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rain Check</title>
+</head>
+<body>
+  <h1>Rain Check</h1>
+  <label>Rainy: <input type="checkbox" id="isRainy"></label>
+  <button onclick="checkRain()">Check Rain</button>
+  <div id="result"></div>
+
+  <script>
+    function checkRain() {
+      let isRainy = document.getElementById("isRainy").checked;
+
+      if (!isRainy) {
+        document.getElementById("result").innerHTML = "It's not raining.";
+      } else {
+        document.getElementById("result").innerHTML = "It's raining.";
+      }
+    }
+  </script>
+</body>
+</html>

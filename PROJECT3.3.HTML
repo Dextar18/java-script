@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Conditions</title>
+</head>
+<body>
+  <h1>Weather Conditions</h1>
+  <label>Sunny: <input type="checkbox" id="isSunny"></label>
+  <label>Warm: <input type="checkbox" id="isWarm"></label>
+  <button onclick="checkWeather()">Check Weather</button>
+  <div id="result"></div>
+
+  <script>
+    function checkWeather() {
+      let isSunny = document.getElementById("isSunny").checked;
+      let isWarm = document.getElementById("isWarm").checked;
+
+      if (isSunny || isWarm) {
+        document.getElementById("result").innerHTML = "It's either sunny or warm (or both).";
+      } else {
+        document.getElementById("result").innerHTML = "It's neither sunny nor warm.";
+      }
+    }
+  </script>
+</body>
+</html>

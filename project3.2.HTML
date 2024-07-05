@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Age Categorization</title>
+</head>
+<body>
+  <h1>Age Categorization</h1>
+  <input type="number" id="age" placeholder="Enter your age">
+  <button onclick="categorizeAge()">Categorize</button>
+  <div id="result"></div>
+  <script>
+    function categorizeAge() {
+      let age = document.getElementById("age").value;
+      age = parseInt(age);
+      if (age > 0 && age < 12) {
+        document.getElementById("result").innerHTML = "Child";
+      } else if (age >= 13 && age <= 19) {
+        document.getElementById("result").innerHTML = "Teen";
+      } else if (age >= 20 && age <= 59) {
+        document.getElementById("result").innerHTML = "Adult";
+      } else if (age >= 60) {
+        document.getElementById("result").innerHTML = "Senior";
+      } else {
+        document.getElementById("result").innerHTML = "Invalid age";
+      }
+    }
+  </script>
+</body>
+</html>
