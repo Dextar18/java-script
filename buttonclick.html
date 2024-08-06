@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+</head>
+<body>
+    <h1 id="h1">DEXY</h1>
+    <h3>DEXY</h3>
+    <h3>DEXY</h3>
+    <h5>DEXY</h5>
+    <h5>DEXY</h5>
+    <p class="green">Green</p>
+    <p class="green">red</p>
+    <p class="blue">Blue</p>
+    <p class="red">Red</p>
+    <button id="change-h1">Change H1</button>
+    <button id="change-h3">Change H3</button>
+    <button id="change-h5">Change H5</button>
+    <button id="change-green">Change Green</button>
+    <button id="change-blue">Change Blue</button>
+    <button id="change-red">Change Red</button>
+</body>
+</html>
+<script>
+ document.getElementById('change-h1').addEventListener('click', function() {
+    document.getElementById('h1').style.color = 'red';
+});
+
+document.getElementById('change-h3').addEventListener('click', function() {
+    let h3 = document.getElementsByTagName('h3');
+    for (let i = 0; i < h3.length; i++) {
+        h3[i].style.color = 'green';
+    }
+});
+
+document.getElementById('change-h5').addEventListener('click', function() {
+    let h5 = document.getElementsByTagName('h5');
+    for (let i = 0; i < h5.length; i++) {
+        h5[i].style.color = 'blue';
+    }
+});
+
+document.getElementById('change-green').addEventListener('click', function() {
+    let green = document.getElementsByClassName('green');
+    for (let i = 0; i < green.length; i++) {
+        green[i].style.color = 'green';
+    }
+});
+
+document.getElementById('change-blue').addEventListener('click', function() {
+    let blue = document.getElementsByClassName('blue');
+    for (let i = 0; i < blue.length; i++) {
+        blue[i].style.color = 'blue';
+    }
+});
+
+document.getElementById('change-red').addEventListener('click', function() {
+    let red = document.getElementsByClassName('red');
+    for (let i = 0; i < red.length; i++) {
+        red[i].style.color = 'red';
+    }
+});   
+</script>
