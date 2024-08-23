@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+class GameCharacter {
+  constructor(arg1, arg2, arg3) {
+    if (arguments.length === 0) {
+      // Random character
+      if (Math.random() < 0.5) {
+        this.health = 100;
+        this.strength = 10;
+        this.name = 'Warrior';
+      } else {
+        this.health = 80;
+        this.strength = 15;
+        this.name = 'Mage';
+      }
+    } else if (arguments.length === 3) {
+      // Character with name, health, and strength
+      if (arg1 === 'Warrior') {
+        this.health = arg2 + 20;
+        this.strength = arg3 + 5;
+      } else if (arg1 === 'Mage') {
+        this.health = arg2 - 10;
+        this.strength = arg3 + 10;
+      } else {
+        this.health = arg2;
+        this.strength = arg3;
+      }
+      this.name = arg1;
+    } else if (arguments.length === 1) {
+      // Copy character
+      const character = arg1;
+      if (character.name === 'Warrior') {
+        this.health = character.health + 20;
+        this.strength = character.strength + 5;
+      } else if (character.name === 'Mage') {
+        this.health = character.health - 10;
+        this.strength = character.strength + 10;
+      } else {
+        this.health = character.health;
+        this.strength = character.strength;
+      }
+      this.name = character.name;
+    }
+  }
+}
+
+const character = new GameCharacter();
+console.log(character.health); // 100 or 80
+console.log(character.strength); // 10 or 15
+console.log(character.name); // Warrior or Mage
+
+const warrior = new GameCharacter('Warrior', 100, 10);
+console.log(warrior.health); // 120
+console.log(warrior.strength); // 15
+
+const mage = new GameCharacter('Mage', 80, 15);
+console.log(mage.health); // 70
+console.log(mage.strength); // 25
+
+const originalWarrior = new GameCharacter('Warrior', 100, 10);
+const copiedWarrior = new GameCharacter(originalWarrior);
+console.log(copiedWarrior.health); // 140
+console.log(copiedWarrior.strength); // 20
+
+const originalMage = new GameCharacter('Mage', 80, 15);
+const copiedMage = new GameCharacter(originalMage);
+console.log(copiedMage.health); // 60
+console.log(copiedMage.strength); // 30
+</script>
