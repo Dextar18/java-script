@@ -1,79 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
-    
+
 </body>
+
 </html>
 <script>
-class GameCharacter {
-  constructor(arg1, arg2, arg3) {
-    if (arguments.length === 0) {
-      // Random character
-      if (Math.random() < 0.5) {
-        this.health = 100;
-        this.strength = 10;
-        this.name = 'Warrior';
-      } else {
-        this.health = 80;
-        this.strength = 15;
-        this.name = 'Mage';
-      }
-    } else if (arguments.length === 3) {
-      // Character with name, health, and strength
-      if (arg1 === 'Warrior') {
-        this.health = arg2 + 20;
-        this.strength = arg3 + 5;
-      } else if (arg1 === 'Mage') {
-        this.health = arg2 - 10;
-        this.strength = arg3 + 10;
-      } else {
-        this.health = arg2;
-        this.strength = arg3;
-      }
-      this.name = arg1;
-    } else if (arguments.length === 1) {
-      // Copy character
-      const character = arg1;
-      if (character.name === 'Warrior') {
-        this.health = character.health + 20;
-        this.strength = character.strength + 5;
-      } else if (character.name === 'Mage') {
-        this.health = character.health - 10;
-        this.strength = character.strength + 10;
-      } else {
-        this.health = character.health;
-        this.strength = character.strength;
-      }
-      this.name = character.name;
+    /*
+    1. polymorphism   2. Inheritance-3 type of inheritance  3. Abstraction   4. Encapsulation    3 types of constructor    conditional classes
+*/
+    // Movie class is extended by BollywoodMovie and HollywoodMovie class so this shows Hierarchical inheritance;
+    class Movie {
+        // Default constructor;
+        constructor() {
+            this.name = "Generic Movie";
+            this.genre = "Drama";
+        }
+
+        info() {
+            return console.log(`${this.name} is a ${this.genre} movie.`);
+        }
     }
-  }
-}
 
-const character = new GameCharacter();
-console.log(character.health); // 100 or 80
-console.log(character.strength); // 10 or 15
-console.log(character.name); // Warrior or Mage
+    // BollywoodMovie class is extended by Movie class so this shows Simple inheritance;
+    class BollywoodMovie extends Movie {
+        // parameterized constructor;
+        constructor(name, actress, genre) {
+            super();
+            this.name = !name ? "Dilwale Dulhania Le Jayenge" : name;
+            this.actress = !actress ? "Kajol" : actress;
+            this.genre = !genre ? "Romance" : genre;
+        }
 
-const warrior = new GameCharacter('Warrior', 100, 10);
-console.log(warrior.health); // 120
-console.log(warrior.strength); // 15
+        // It is polymorphism cause it overrides a method;
+        info() {
+            return console.log(`${this.name} starring ${this.actress} is a ${this.genre} movie.`);
+        }
 
-const mage = new GameCharacter('Mage', 80, 15);
-console.log(mage.health); // 70
-console.log(mage.strength); // 25
+        // actressInfo method is an example of Encapsulation cause it is exclusive for BollywoodMovie class;
+        actressInfo() {
+            return console.log(`${this.actress} is a very talented actress.`);
+        }
+    }
 
-const originalWarrior = new GameCharacter('Warrior', 100, 10);
-const copiedWarrior = new GameCharacter(originalWarrior);
-console.log(copiedWarrior.health); // 140
-console.log(copiedWarrior.strength); // 20
+    // HollywoodMovie class extends Movie class so this shows Simple inheritance;
+    class HollywoodMovie extends Movie {
+        constructor(name, actress, genre) {
+            super(); // Call the parent class constructor
+            this.name = !name ? "Titanic" : name;
+            this.actress = !actress ? "Kate Winslet" : actress;
+            this.genre = !genre ? "Romantic Epic Disaster" : genre;
+        }
 
-const originalMage = new GameCharacter('Mage', 80, 15);
-const copiedMage = new GameCharacter(originalMage);
-console.log(copiedMage.health); // 60
-console.log(copiedMage.strength); // 30
+        // It is polymorphism cause it overrides a method;
+        info() {
+            return console.log(`${this.name} starring ${this.actress} is a ${this.genre} movie.`);
+        }
+    }
+
+    // made the objects
+    let movie = new Movie();
+    let bollywoodMovie = new BollywoodMovie("Kuch Kuch Hota Hai", "Kajol", "Romance");
+    let hollywoodMovie = new HollywoodMovie("The Notebook", "Rachel McAdams", "Romantic Drama");
+
+    // log the objects
+    console.log(movie);
+    console.log(bollywoodMovie);
+    console.log(hollywoodMovie);
 </script>
