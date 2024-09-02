@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stop Watch</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+        integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+<style>
+    #container {
+        height: 700px;
+        background-image: url('https://motionarray.imgix.net/1304494-ugRl5m2c6s-high_0000.jpg?w=660&q=60&fit=max&auto=format');
+        background-size: cover;
+
+    }
+
+    #screen {
+        height: 100px;
+        width: 220px;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 50px;
+        position: relative;
+        color: green;
+        left: 625px;
+        top: 250px;
+        animation: colorChange 5s infinite;
+    }
+
+    @keyframes colorChange {
+        0% {
+            color: rgba(0, 255, 34, 0.336);
+            /* Light translucent green */
+        }
+
+        16% {
+            color: rgb(0, 255, 34);
+            /* Bright green */
+        }
+
+        33% {
+            color: rgb(62, 255, 82);
+            /* Soft green */
+        }
+
+        50% {
+            color: rgb(0, 128, 0);
+            /* Dark green */
+        }
+
+        66% {
+            color: rgba(154, 255, 71, 0.9);
+            /* Transition to purple */
+        }
+
+        83% {
+            color: rgba(143, 255, 165, 0.49);
+            /* Transition to red */
+        }
+
+        100% {
+            color: rgba(0, 255, 34, 0.336);
+            /* Back to light translucent green */
+        }
+    }
+
+    #start {
+        height: 100PX;
+        width: 100PX;
+        font-size: 50PX;
+        position: relative;
+        top: 300PX;
+        left: 500PX;
+        background-color: transparent;
+        animation: colorChange1 5s infinite;
+    }
+
+    #stop {
+        height: 100PX;
+        width: 100PX;
+        font-size: 50PX;
+        position: relative;
+        top: 300PX;
+        left: 540PX;
+        background-color: transparent;
+        animation: colorChange1 5s infinite;
+    }
+
+    #reset {
+        height: 100PX;
+        width: 100PX;
+        font-size: 50PX;
+        position: relative;
+        top: 300PX;
+        left: 580PX;
+        background-color: transparent;
+        animation: colorChange1 5s infinite;
+    }
+
+    @keyframes colorChange1 {
+        0% {
+            color: rgb(0, 255, 0);
+            /* Green */
+        }
+
+        33% {
+            color: rgb(255, 255, 0);
+            /* Yellow */
+        }
+
+        66% {
+            color: rgb(255, 0, 0);
+            /* Red */
+        }
+
+        100% {
+            color: rgb(0, 255, 0);
+            /* Back to Green */
+        }
+    }
+</style>
+
+<body>
+    <div id="container">
+        <div id="screen">00:00:00</div>
+        <div id="controls">
+            <button id="start"> <i class="fa-solid fa-gauge "></i></button>
+            <button id="stop"><i class="fa-solid fa-ban fa-rotate-0"></i></button>
+            <button id="reset"><i class="fa-solid fa-hourglass"></i></button>
+        </div>
+    </div>
+</body>
+
+</html>
+<script>
+    let start = document.getElementById('start');
+    let stop = document.getElementById('stop');
+    let reset = document.getElementById('reset');
+    let screen = document.getElementById('screen');
+
+    let seconds = 0;
+    let minutes = 0;
+    let milliseconds = 0;
+    let timer = null;
+
+    start.addEventListener('click', () => {
+        if (!timer) {
+            timer = setInterval(() => {
+                milliseconds++;
+                if (milliseconds >= 100) {
+                    seconds++;
+                    milliseconds = 0;
+                }
+                if (seconds >= 60) {
+                    minutes++;
+                    seconds = 0;
+                }
+                screen.innerText = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(2, '0')}`;
+            }, 10);
+        }
+    });
+
+    stop.addEventListener('click', () => {
+        clearInterval(timer);
+        timer = null;
+    });
+
+    reset.addEventListener('click', () => {
+        clearInterval(timer);
+        timer = null;
+        seconds = 0;
+        minutes = 0;
+        milliseconds = 0;
+        screen.innerText = '00:00:00';
+    });
+</script>
