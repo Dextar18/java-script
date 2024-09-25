@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+ *{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --bg: #d6e3ff;
+    --box: #01041a;
+    --success: #1b9b2e;
+    --text: #fff;
+    --place-holder: #d4d3d3;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    height: 100vh;
+    color: black;
+   
+}
+
+#write-tasks{
+    height: 70px;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-inline: 12px;
+    border-radius: 15px;
+    box-shadow: rgba(204, 219, 232, 0.779) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+#task-input{
+    width: 90%;
+    height: 100%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    color: var(--text);
+    padding-left: 20px;
+    background: transparent;
+    color: BLACK;
+}
+#task-input::placeholder{
+    color: var(--place-holder);
+}
+
+#add-task{
+    width: 45px;
+    height: 45px;
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
+    color: var(--box);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+#display-tasks{
+    width: 50%;
+    height: 70%;
+    gap: 15px;
+}
+
+#pending-tasks, #completed-tasks{
+    width: 50%;
+    gap: 15px;
+    padding: 12px;
+    border-radius: 15px;
+    color: black
+
+
+}   
+
+
+#pending-list, #completed-list{
+    font-size: 20px;
+    height: 85%;
+    overflow: scroll;
+    background-color: #243bcf2c;
+
+}
+#pending-list, #completed-list {
+    overflow: auto; 
+    scrollbar-width: none; 
+    -ms-overflow-style: none;  
+}
+
+#pending-list::-webkit-scrollbar, #completed-list::-webkit-scrollbar {
+    display: none; 
+}
+
+#pending-list > div:nth-child(even), #completed-list > div:nth-child(even){
+    background-color: #f9f9f91f;
+    border-radius: 15px;
+}
+#pending-list > div:nth-child(odd), #completed-list > div:nth-child(odd){
+    background-color: #f9f9f93e;
+    border-radius: 15px;
+}
+
+.single-task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 10px 10px 20px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    background-color: #243bcf2c;
+    border-radius: 15px;
+    box-shadow: rgba(204, 219, 232, 0.779) 3px 3px 6px 0px inset, rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+button .material-symbols-outlined {
+    font-size: 24px;
+}
+
+.undo-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
+    color: var(--box);
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 0;
+    outline: 0;
+    color: var(--box);
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    color: var(--box);
+    background-color: blueviolet;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-group{
+    display: flex;
+    gap: 10px;
+}
+</style>
+
+<body>
+    <div id="c1">
+        <center>
+            <div class="container">
+
+                <form id="write-tasks" style="color: black;" onsubmit="addTask(event)">
+                    <input type="text" id="task-input" placeholder="Enter a task...">
+                    <button type="submit" id="add-task">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                </form>
+        
+                <div id="display-tasks">
+        
+                    <div id="pending-tasks">
+                        <h2 style="text-align: center; padding-block: 15px;">Pending Tasks</h2><br />
+        
+                        <div id="pending-list">
+                        </div>
+                    </div>
+        
+                    <div id="completed-tasks">
+                        <h2 style="text-align: center; padding-block: 15px;">Completed Tasks</h2><br />
+                        <div id="completed-list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </center>
+
+
+    </div>
+</body>
+
+</html>
+<script>
+let taskInput = document.getElementById('task-input');
+let pendingList = document.getElementById('pending-list');
+let completedList = document.getElementById('completed-list');
+let addTaskBtn = document.getElementById('add-task');
+
+window.onload = () => {
+    let existingTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    existingTasks.forEach(task => {
+        let list = document.createElement('div');
+        list.setAttribute('data-id', task.id);
+        list.className = 'single-task';
+
+        if (task.completed) {
+            list.innerHTML = `
+                <div>${task.text}</div>
+                <div class="button-group">
+                    <button class="undo-btn" onclick="undo(${task.id})">
+                        <span class="material-symbols-outlined">undo</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteTask(${task.id})">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </div>
+            `;
+            completedList.appendChild(list);
+        } else {
+            list.innerHTML = `
+                <div>${task.text}</div>
+                <div class="button-group">
+                    <button class="check-btn" onclick="completed(${task.id})">
+                        <span class="material-symbols-outlined">check</span>
+                    </button>
+                    <button class="delete-btn" onclick="deleteTask(${task.id})">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
+                </div>
+            `;
+            pendingList.appendChild(list);
+        }
+    });
+}
+
+const addTask = (event) => {
+    event.preventDefault();
+
+    let taskText = taskInput.value;
+
+    if (!taskText) {
+        alert('Please enter a task');
+        return;
+    }
+
+    let newTask = {
+        id: Date.now(),
+        text: taskText,
+        completed: false
+    };
+
+    let existingTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    existingTasks.push(newTask);
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    taskInput.value = '';
+
+    let list = document.createElement('div');
+    list.setAttribute('data-id', newTask.id);
+    list.innerHTML = `
+        <div class="single-task">
+            <div>${newTask.text}</div>
+            <div class="button-group">
+                <button class="check-btn" onclick="completed(${newTask.id})">
+                    <span class="material-symbols-outlined">check</span>
+                </button>
+                <button class="delete-btn" onclick="deleteTask(${newTask.id})">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    pendingList.appendChild(list);
+};
+
+const completed = (id) => {
+    let existingTasks = JSON.parse(localStorage.getItem('tasks'));
+
+    existingTasks = existingTasks.map(task => {
+        if (task.id === id) {
+            task.completed = true;
+        }
+        return task;
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    let task = document.querySelector(`div[data-id="${id}"]`);
+    if (task) {
+        pendingList.removeChild(task);
+    }
+
+    let completedTask = document.createElement('div');
+    completedTask.setAttribute('data-id', id);
+    completedTask.innerHTML = `
+        <div class="single-task completed">
+            <div>${existingTasks.find(task => task.id === id).text}</div>
+            <div class="button-group">
+                <button class="undo-btn" onclick="undo(${id})">
+                    <span class="material-symbols-outlined">undo</span>
+                </button>
+                <button class="delete-btn" onclick="deleteTask(${id})">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    completedList.appendChild(completedTask);
+}
+
+const undo = (id) => {
+    let existingTasks = JSON.parse(localStorage.getItem('tasks'));
+
+    existingTasks = existingTasks.map(task => {
+        if (task.id === id) {
+            task.completed = false;
+        }
+        return task;
+    });
+
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    let task = document.querySelector(`div[data-id="${id}"]`);
+    if (task) {
+        completedList.removeChild(task);
+    }
+
+    let pendingTask = document.createElement('div');
+    pendingTask.setAttribute('data-id', id);
+    pendingTask.innerHTML = `
+        <div class="single-task">
+            <div>${existingTasks.find(task => task.id === id).text}</div>
+            <div class="button-group">
+                <button class="check-btn" onclick="completed(${id})">
+                    <span class="material-symbols-outlined">check</span>
+                </button>
+                <button class="delete-btn" onclick="deleteTask(${id})">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    pendingList.appendChild(pendingTask);
+}
+
+const deleteTask = (id) => {
+    let existingTasks = JSON.parse(localStorage.getItem('tasks'));
+
+    existingTasks = existingTasks.filter(task => task.id !== id);
+    localStorage.setItem('tasks', JSON.stringify(existingTasks));
+
+    let task = document.querySelector(`div[data-id="${id}"]`);
+    if (task) {
+        if (task.parentElement.id === 'pending-list') {
+            pendingList.removeChild(task);
+        } else {
+            completedList.removeChild(task);
+        }
+    }
+}
+
+</script>
