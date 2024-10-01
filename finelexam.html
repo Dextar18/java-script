@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.task-input {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.task-input input, select {
+  padding: 5px;
+  width: 60%;
+}
+
+button {
+  padding: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  background-color: #eaeaea;
+  padding: 5px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.filter-section {
+  margin-bottom: 10px;
+}
+
+.priority-low {
+  color: green;
+}
+
+.priority-medium {
+  color: orange;
+}
+
+.priority-high {
+  color: red;
+}
+    </style>
+<body>
+  <div class="container">
+    <h1>Task Manager</h1>
+
+    <!-- Form to add tasks -->
+    <div class="task-input">
+      <input type="text" id="task-input" placeholder="Add a new task">
+      <select id="priority-select">
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+      <button onclick="addTask()">Add Task</button>
+    </div>
+
+    <!-- Filter by priority -->
+    <div class="filter-section">
+      <label for="filter-priority">Filter by Priority:</label>
+      <select id="filter-priority" onchange="filterTasks()">
+        <option value="all">All</option>
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <!-- Task list display -->
+    <ul id="task-list"></ul>
+  </div>
+
+  <script>
+    let tasks = [];
+
+function addTask() {
+  const taskInput = document.getElementById('task-input').value;
+  const prioritySelect = document.getElementById('priority-select').value;
+
+  if (taskInput === '') {
+    alert('Please enter a task');
+    return;
+  }
+
+  // Add task to the array
+  tasks.push({ text: taskInput, priority: prioritySelect });
+
+  // Clear the input
+  document.getElementById('task-input').value = '';
+
+  // Display tasks
+  displayTasks(tasks);
+}
+
+function displayTasks(taskArray) {
+  const taskList = document.getElementById('task-list');
+  taskList.innerHTML = '';
+
+  taskArray.forEach((task, index) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <span class="priority-${task.priority}">${task.text} (${task.priority})</span>
+      <button onclick="deleteTask(${index})">Delete</button>
+    `;
+    taskList.appendChild(li);
+  });
+}
+
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  displayTasks(tasks);
+}
+
+function filterTasks() {
+  const filter = document.getElementById('filter-priority').value;
+
+  if (filter === 'all') {
+    displayTasks(tasks);
+  } else {
+    const filteredTasks = tasks.filter(task => task.priority === filter);
+    displayTasks(filteredTasks);
+  }
+}
+  </script>
+</body>
+</html>
