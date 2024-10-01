@@ -1,166 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Task Manager</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+</head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
 </head>
 <style>
     body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+    }
 
-.container {
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-}
+    .container {
+        max-width: 750px;
+        max-height: 1000px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: rgba(245, 245, 245, 0.9);
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    }
 
-h1 {
-  text-align: center;
-}
+    h1.heading {
+        text-align: center;
+        color: #003366; /* Navy */
+        font-size: 40px;
+        font-weight: 700;
+        margin-bottom: 30px;
+    }
 
-.task-input {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
+    form {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 25px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-.task-input input, select {
-  padding: 5px;
-  width: 60%;
-}
+    form input[type="text"],
+    form input[type="date"] {
+        width: 100%;
+        padding: 12px;
+        margin: 15px 0;
+        border: 2px solid #003366; /* Navy */
+        border-radius: 6px;
+        font-size: 16px;
+        box-sizing: border-box;
+        background-color: #f9f9f9; /* Light background for inputs */
+    }
 
-button {
-  padding: 5px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
+    form input[type="submit"] {
+        width: 100%;
+        padding: 15px;
+        background-color: #ff6f61; /* Light Coral */
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
 
-button:hover {
-  background-color: #0056b3;
-}
+    form input[type="submit"]:hover {
+        background-color: #e45749; /* Darker Coral */
+    }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
+    table {
+        width: 100%;
+        margin: 30px auto;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
 
-li {
-  display: flex;
-  justify-content: space-between;
-  background-color: #eaeaea;
-  padding: 5px;
-  margin: 5px 0;
-  border-radius: 5px;
-}
+    table th,
+    table td {
+        padding: 15px;
+        text-align: left;
+        border-bottom: 2px solid #e0e0e0;
+    }
 
-.filter-section {
-  margin-bottom: 10px;
-}
+    table th {
+        background-color: #003366; /* Navy */
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+    }
 
-.priority-low {
-  color: green;
-}
+    table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
 
-.priority-medium {
-  color: orange;
-}
+    table tr:nth-child(odd) {
+        background-color: #f1f1f1;
+    }
 
-.priority-high {
-  color: red;
-}
-    </style>
+    table tr:hover {
+        background-color: #dbeeff; /* Light Blue */
+        transition: background-color 0.3s ease;
+    }
+
+    button {
+        padding: 10px 18px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .deleteBtn {
+        background-color: #ff6f61; /* Light Coral */
+    }
+
+    .deleteBtn:hover {
+        background-color: #e45749; /* Darker Coral */
+    }
+
+    .editBtn {
+        background-color: #69aff6; /* Dodger Blue */
+    }
+
+    .editBtn:hover {
+        background-color: #69aff6; /* Darker Blue */
+    }
+
+    .completeBtn {
+        background-color: #4CAF50;
+    }
+
+    .completeBtn:hover {
+        background-color: #388e3c;
+    }
+
+    .pendingBtn {
+        background-color: #ffbf00; /* Amber */
+    }
+
+    .pendingBtn:hover {
+        background-color: #e8a600;
+    }
+
+    @media screen and (max-width: 768px) {
+        .container {
+            padding: 15px;
+        }
+
+        form input[type="submit"] {
+            font-size: 16px;
+            padding: 12px;
+        }
+
+        table th, table td {
+            font-size: 14px;
+        }
+
+        button {
+            font-size: 12px;
+            padding: 8px 14px;
+        }
+    }
+</style>
+
+
 <body>
-  <div class="container">
-    <h1>Task Manager</h1>
-
-    <!-- Form to add tasks -->
-    <div class="task-input">
-      <input type="text" id="task-input" placeholder="Add a new task">
-      <select id="priority-select">
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
-      <button onclick="addTask()">Add Task</button>
+    <div class="container" style="position: relative; right: 600px; bottom: 60px;">
+        <h1 class="heading">Task Manager</h1>
+        <form onsubmit="addTask(event)">
+            <input type="text" placeholder="Enter Task Name" id="taskName" required>
+            <input type="text" placeholder="Enter Task Description" id="taskDesc" required>
+            <input type="date" id="dueDate" placeholder="Date" required>
+            <input type="submit" id="subBtn" value="Add Task">
+        </form>
     </div>
-
-    <!-- Filter by priority -->
-    <div class="filter-section">
-      <label for="filter-priority">Filter by Priority:</label>
-      <select id="filter-priority" onchange="filterTasks()">
-        <option value="all">All</option>
-        <option value="low">Low</option>
-        <option value="medium">Medium</option>
-        <option value="high">High</option>
-      </select>
+    <div class="container-1" style="position: relative; left:800px; bottom: 640px; width: 1000px;">
+        <h1 class="heading">Task List</h1>
+        <table border="1" width="80%">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th colspan="3">Action</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
     </div>
-
-    <!-- Task list display -->
-    <ul id="task-list"></ul>
-  </div>
-
-  <script>
-    let tasks = [];
-
-function addTask() {
-  const taskInput = document.getElementById('task-input').value;
-  const prioritySelect = document.getElementById('priority-select').value;
-
-  if (taskInput === '') {
-    alert('Please enter a task');
-    return;
-  }
-
-  // Add task to the array
-  tasks.push({ text: taskInput, priority: prioritySelect });
-
-  // Clear the input
-  document.getElementById('task-input').value = '';
-
-  // Display tasks
-  displayTasks(tasks);
-}
-
-function displayTasks(taskArray) {
-  const taskList = document.getElementById('task-list');
-  taskList.innerHTML = '';
-
-  taskArray.forEach((task, index) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <span class="priority-${task.priority}">${task.text} (${task.priority})</span>
-      <button onclick="deleteTask(${index})">Delete</button>
-    `;
-    taskList.appendChild(li);
-  });
-}
-
-function deleteTask(index) {
-  tasks.splice(index, 1);
-  displayTasks(tasks);
-}
-
-function filterTasks() {
-  const filter = document.getElementById('filter-priority').value;
-
-  if (filter === 'all') {
-    displayTasks(tasks);
-  } else {
-    const filteredTasks = tasks.filter(task => task.priority === filter);
-    displayTasks(filteredTasks);
-  }
-}
-  </script>
+    
 </body>
+
 </html>
+
+<script>
+    let taskName = document.getElementById("taskName");
+let taskDesc = document.getElementById("taskDesc");
+let dueDate = document.getElementById("dueDate");
+let editId = null;
+
+function addTask(event) {
+event.preventDefault();
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+if (editId) {
+    // Edit task
+    tasks = tasks.map((task) => {
+        if (task.id == editId) {
+            return {
+                ...task,
+                name: taskName.value,
+                description: taskDesc.value,
+                dueDate: dueDate.value,
+                status: task.status
+            };
+        }
+        return task;
+    });
+
+    editId = null;
+    document.getElementById("subBtn").value = "Add Task";
+} else {
+    // Add new task
+    let newTask = {
+        id: Date.now(),
+        name: taskName.value,
+        description: taskDesc.value,
+        dueDate: dueDate.value,
+        status: "Pending"
+    };
+    tasks.push(newTask);
+}
+
+localStorage.setItem("tasks", JSON.stringify(tasks));
+taskName.value = "";
+taskDesc.value = "";
+dueDate.value = "";
+
+renderTasks();
+}
+
+function renderTasks() {
+let tbody = document.getElementById("tbody");
+tbody.innerHTML = "";
+
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+for (let i = 0; i < tasks.length; i++) {
+    let row = tbody.insertRow();
+    row.innerHTML = `
+        <td>${tasks[i].name}</td>
+        <td>${tasks[i].description}</td>
+        <td>${tasks[i].dueDate}</td>
+        <td>${tasks[i].status}</td>
+        <td><button class="deleteBtn" data-id="${tasks[i].id}">Delete</button></td>
+        <td><button class="editBtn" data-id="${tasks[i].id}">Edit</button></td>
+        <td>
+            ${tasks[i].status === "Pending" 
+                ? `<button class="completeBtn" data-id="${tasks[i].id}">Mark Completed</button>` 
+                : `<button class="pendingBtn" data-id="${tasks[i].id}">Mark Pending</button>`
+            }
+        </td>
+    `;
+}
+}
+
+// Use event delegation for better performance
+document.getElementById("tbody").addEventListener("click", function (event) {
+let target = event.target;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+// Delete Task
+if (target.classList.contains("deleteBtn")) {
+    let taskId = target.getAttribute("data-id");
+    tasks = tasks.filter((task) => task.id != taskId);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+}
+
+// Edit Task
+if (target.classList.contains("editBtn")) {
+    let taskId = target.getAttribute("data-id");
+    let taskToEdit = tasks.find((task) => task.id == taskId);
+
+    taskName.value = taskToEdit.name;
+    taskDesc.value = taskToEdit.description;
+    dueDate.value = taskToEdit.dueDate;
+
+    editId = taskId;
+    document.getElementById("subBtn").value = "Update Task";
+}
+
+// Mark as Complete
+if (target.classList.contains("completeBtn")) {
+    let taskId = target.getAttribute("data-id");
+    tasks = tasks.map((task) => {
+        if (task.id == taskId) {
+            return { ...task, status: "Completed" };
+        }
+        return task;
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+}
+
+// Mark as Pending
+if (target.classList.contains("pendingBtn")) {
+    let taskId0 = target.getAttribute("data-id");
+    tasks = tasks.map((task) => {
+        if (task.id == taskId) {
+            return { ...task, status: "Pending" };
+        }
+        return task;
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    renderTasks();
+}
+});
+
+renderTasks();
+
+</script>
